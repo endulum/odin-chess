@@ -118,8 +118,8 @@ describe Chess::Board do
         it "stores the Piece at key 'a3'" do
           expect { board.place_piece(white_pawn, placement) }
             .to change { board.at_square(placement) }
-            .from nil
-            .to white_pawn
+            .from(nil)
+            .to(white_pawn)
         end
       end
 
@@ -129,8 +129,8 @@ describe Chess::Board do
         it "stores the Piece at key 'a3', overriding the Piece already there" do
           expect { board.place_piece(white_pawn, placement) }
             .to change { board.at_square(placement) }
-            .from black_pawn
-            .to white_pawn
+            .from(black_pawn)
+            .to(white_pawn)
         end
       end
     end
