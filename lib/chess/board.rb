@@ -14,11 +14,33 @@ module Chess
       pairs.each { |x| @squares[x] = nil }
     end
 
+    def at_square(notation)
+      return unless @squares.key? notation
+
+      @squares[notation]
+    end
+
+    def place_piece(piece, notation)
+      return unless @squares.key? notation
+
+      @squares[notation] = piece
+    end
+
+    def move_piece(starting, ending)
+      return unless @squares.key?(starting) && @squares.key?(ending)
+
+      return if squares[starting].nil?
+
+      piece = squares[starting]
+      squares[starting] = nil
+      squares[ending] = piece
+    end
+
     def translate(notation, direction)
       return nil unless @squares.key?(notation)
 
       col, row = notation.chars
-      horiz, verti = direction # [0, -1]
+      horiz, verti = direction
       col = x_translate(col, horiz)
       row = y_translate(row, verti)
       row.nil? || col.nil? ? nil : [col, row].join
