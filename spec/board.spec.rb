@@ -153,7 +153,7 @@ describe Chess::Board do
       starting = "a2"
       context "... to a3, and a2 is empty" do
         ending = "a3"
-        before { board.place_piece(:black_pawn, ending) }
+        before { board.place_piece(black_pawn, ending) }
 
         it "does nothing" do
           expect { board.move_piece(starting, ending) }
@@ -163,32 +163,32 @@ describe Chess::Board do
 
       context "... to a3, and a3 is empty" do
         ending = "a3"
-        before { board.place_piece(:white_pawn, starting) }
+        before { board.place_piece(white_pawn, starting) }
 
         it "stores the Piece at key 'a3' and removes it from key 'a2'" do
           expect { board.move_piece(starting, ending) }
-            .to(change { [board.at_square(starting), board.at_square(ending)] })
+            .to(change { [board.at_square(starting), board.at_square(ending)] }
             .from([white_pawn, nil])
-            .to([nil, white_pawn])
+            .to([nil, white_pawn]))
         end
       end
 
       context "... to a3, and a3 has a Piece" do
         ending = "a3"
-        before { board.place_piece(:white_pawn, starting) }
-        before { board.place_piece(:black_pawn, ending) }
+        before { board.place_piece(white_pawn, starting) }
+        before { board.place_piece(black_pawn, ending) }
 
         it "stores the Piece at key 'a3', overriding the Piece already there, and removes it from key 'a2'" do
           expect { board.move_piece(starting, ending) }
-            .to(change { [board.at_square(starting), board.at_square(ending)] })
-            .from([white_pawn, nil])
-            .to([nil, white_pawn])
+            .to(change { [board.at_square(starting), board.at_square(ending)] }
+            .from([white_pawn, black_pawn])
+            .to([nil, white_pawn]))
         end
       end
 
       context "... to an out-of-bounds spot" do
         ending = "a10"
-        before { board.place_piece(:white_pawn, starting) }
+        before { board.place_piece(white_pawn, starting) }
 
         it "does nothing" do
           expect { board.move_piece(starting, ending) }
@@ -200,7 +200,7 @@ describe Chess::Board do
     context "when moving from an out-of-bounds spot" do
       starting = "a10"
       ending = "a3"
-      before { board.place_piece(:black_pawn, ending) }
+      before { board.place_piece(black_pawn, ending) }
 
       it "does nothing to the board" do
         expect { board.move_piece(starting, ending) }
