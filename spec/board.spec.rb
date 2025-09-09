@@ -28,7 +28,7 @@ describe Chess::Board do
         h8 h7 h6 h5 h4 h3 h2 h1
       ]
       board_keys = board.squares.keys
-      expect(board_keys).to contain_exactly(expected_keys)
+      expect(board_keys).to contain_exactly(*expected_keys)
     end
   end
 
@@ -41,65 +41,65 @@ describe Chess::Board do
 
       context "going one space north" do
         it "returns nil" do
-          direction = [0, -1]
-          translation = described_class.translate(starting, direction)
+          direction = [0, 1]
+          translation = board.translate(starting, direction)
           expect(translation).to be_nil
         end
       end
 
       context "going one space south" do
-        it "returns b8" do
-          direction = [0, 1]
-          translation = described_class.translate(starting, direction)
-          expect(translation).to be "b8"
+        it "returns a7" do
+          direction = [0, -1]
+          translation = board.translate(starting, direction)
+          expect(translation).to eq "a7"
         end
       end
 
       context "going one space west" do
         it "returns nil" do
           direction = [-1, 0]
-          translation = described_class.translate(starting, direction)
+          translation = board.translate(starting, direction)
           expect(translation).to be_nil
         end
       end
 
       context "going one space east" do
-        it "returns a7" do
+        it "returns b8" do
           direction = [1, 0]
-          translation = described_class.translate(starting, direction)
-          expect(translation).to be "a7"
+          translation = board.translate(starting, direction)
+          expect(translation).to eq "b8"
         end
       end
 
       context "going one space northwest" do
         it "returns nil" do
-          direction = [-1, -1]
-          translation = described_class.translate(starting, direction)
+          direction = [-1, 1]
+          translation = board.translate(starting, direction)
           expect(translation).to be_nil
         end
       end
 
       context "going one space southwest" do
         it "returns nil" do
-          direction = [-1, 1]
-          translation = described_class.translate(starting, direction)
+          direction = [-1, -1]
+          translation = board.translate(starting, direction)
           expect(translation).to be_nil
         end
       end
 
       context "going one space northeast" do
         it "returns nil" do
-          direction = [1, -1]
-          translation = described_class.translate(starting, direction)
+          direction = [1, 1]
+          translation = board.translate(starting, direction)
           expect(translation).to be_nil
         end
       end
 
       context "going one space southeast" do
         it "returns b7" do
-          direction = [1, 1]
-          translation = described_class.translate(starting, direction)
-          expect(translation).to be "b7"
+          direction = [1, -1]
+          translation = board.translate(starting, direction)
+          expect(translation).to eq "b7"
         end
       end
     end
