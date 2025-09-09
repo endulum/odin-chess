@@ -4,14 +4,16 @@ module Chess
     ROWS = %w[1 2 3 4 5 6 7 8].freeze
     COLS = %w[a b c d e f g h].freeze
 
-    attr_reader :squares
-
     def initialize
       pairs = COLS
               .product(ROWS)
               .map { |col, row| col + row }
       @squares = Hash.new(64)
       pairs.each { |x| @squares[x] = nil }
+    end
+
+    def all_squares
+      @squares.clone
     end
 
     def at_square(notation)
@@ -29,11 +31,11 @@ module Chess
     def move_piece(starting, ending)
       return unless @squares.key?(starting) && @squares.key?(ending)
 
-      return if squares[starting].nil?
+      return if @squares[starting].nil?
 
-      piece = squares[starting]
-      squares[starting] = nil
-      squares[ending] = piece
+      piece = @squares[starting]
+      @squares[starting] = nil
+      @squares[ending] = piece
     end
 
     def translate(notation, direction)

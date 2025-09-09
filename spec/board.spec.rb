@@ -27,8 +27,13 @@ describe Chess::Board do
         g8 g7 g6 g5 g4 g3 g2 g1
         h8 h7 h6 h5 h4 h3 h2 h1
       ]
-      board_keys = board.squares.keys
+      board_keys = board.all_squares.keys
       expect(board_keys).to contain_exactly(*expected_keys)
+    end
+
+    it "has immutable squares" do
+      expect { board.all_squares["a3"] = "owo" }
+        .not_to(change { board.all_squares })
     end
   end
 
@@ -140,7 +145,7 @@ describe Chess::Board do
 
       it "does nothing to the board" do
         expect { board.place_piece(white_pawn, placement) }
-          .not_to(change { board.squares })
+          .not_to(change { board.all_squares })
       end
     end
   end
@@ -204,7 +209,7 @@ describe Chess::Board do
 
       it "does nothing to the board" do
         expect { board.move_piece(starting, ending) }
-          .not_to(change { [board.at_square(starting), board.at_square(ending)] })
+          .not_to(change { board.all_squares })
       end
     end
   end
