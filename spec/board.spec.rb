@@ -104,4 +104,108 @@ describe Chess::Board do
       end
     end
   end
+
+  # piece placement and movement is allowed to override existing pieces, as part of "capture".
+
+  describe "#place_piece" do
+    let(:white_pawn) { double("Piece", type: "pawn", color: :white, character: "♙") }
+    let(:black_pawn) { double("Piece", type: "pawn", color: :black, character: "♟") }
+
+    context "when placing a Piece at a2..." do
+      placement = "a2"
+
+      context "... and a2 is empty" do
+        it "stores the Piece at key 'a3'" do
+          expect { board.place_piece(white_pawn, placement) }
+            .to change { board.at_square(placement) }
+            .from nil
+            .to white_pawn
+        end
+      end
+
+      context "... and a2 has a Piece" do
+        before { board.place_piece(black_pawn, placement) }
+
+        it "stores the Piece at key 'a3', overriding the Piece already there" do
+          expect { board.place_piece(white_pawn, placement) }
+            .to change { board.at_square(placement) }
+            .from black_pawn
+            .to white_pawn
+        end
+      end
+    end
+
+    context "when placing a Piece out-of-bounds" do
+      placement = "a10"
+
+      it "does nothing to the board" do
+        expect { board.place_piece(white_pawn, placement) }
+          .not_to(change { board.squares })
+      end
+    end
+  end
+
+  describe "#move_piece" do
+    let(:white_pawn) { double("Piece", type: "pawn", color: :white, character: "♙") }
+    let(:black_pawn) { double("Piece", type: "pawn", color: :black, character: "♟") }
+
+    context "when moving a Piece from a2..." do
+      starting = "a2"
+      context "... to a3, and a2 is empty" do
+        ending = "a3"
+        before { board.place_piece(:black_pawn, ending) }
+
+        it "does nothing" do
+          expect { board.move_piece(starting, ending) }
+            .not_to(change { [board.at_square(starting), board.at_square(ending)] })
+        end
+      end
+
+      context "... to a3, and a3 is empty" do
+        ending = "a3"
+        before { board.place_piece(:white_pawn, starting) }
+
+        it "stores the Piece at key 'a3' and removes it from key 'a2'" do
+          expect { board.move_piece(starting, ending) }
+            .to(change { [board.at_square(starting), board.at_square(ending)] })
+            .from([white_pawn, nil])
+            .to([nil, white_pawn])
+        end
+      end
+
+      context "... to a3, and a3 has a Piece" do
+        ending = "a3"
+        before { board.place_piece(:white_pawn, starting) }
+        before { board.place_piece(:black_pawn, ending) }
+
+        it "stores the Piece at key 'a3', overriding the Piece already there, and removes it from key 'a2'" do
+          expect { board.move_piece(starting, ending) }
+            .to(change { [board.at_square(starting), board.at_square(ending)] })
+            .from([white_pawn, nil])
+            .to([nil, white_pawn])
+        end
+      end
+
+      context "... to an out-of-bounds spot" do
+        ending = "a10"
+        before { board.place_piece(:white_pawn, starting) }
+
+        it "does nothing" do
+          expect { board.move_piece(starting, ending) }
+            .not_to(change { [board.at_square(starting), board.at_square(ending)] })
+        end
+      end
+    end
+
+    context "when moving from an out-of-bounds spot" do
+      starting = "a10"
+      ending = "a3"
+      before { board.place_piece(:black_pawn, ending) }
+
+      it "does nothing to the board" do
+        expect { board.move_piece(starting, ending) }
+          .not_to(change { [board.at_square(starting), board.at_square(ending)] })
+      end
+    end
+  end
 end
