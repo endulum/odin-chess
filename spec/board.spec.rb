@@ -261,12 +261,12 @@ describe Chess::Board do
         # set up the white side
         %w[a1 b1 c1 d1 e1 f1 g1 h1]
           .zip([
-                 black_rook, black_knight, black_bishop, black_queen,
-                 black_king, black_bishop, black_knight, black_rook
+                 white_rook, white_knight, white_bishop, white_queen,
+                 white_king, white_bishop, white_knight, white_rook
                ])
           .each { |square, piece| board.place_piece(piece, square) }
         %w[a2 b2 c2 d2 e2 f2 g2 h2]
-          .each { |square| board.place_piece(black_pawn, square) }
+          .each { |square| board.place_piece(white_pawn, square) }
       end
 
       it "prints a board with each Piece in its proper square" do
