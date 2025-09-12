@@ -48,9 +48,10 @@ module Chess
       row.nil? || col.nil? ? nil : [col, row].join
     end
 
-    def print(highlighted = [])
+    def print(**options)
       rows = @squares.keys.each_slice(8).to_a
       board_string = "  a b c d e f g h".gray
+      highlighted = options[:highlight] || []
 
       rows.each_with_index do |row, row_index|
         board_string += "\n#{ROWS[row_index].gray} "
@@ -89,12 +90,12 @@ module Chess
     end
 
     def background_color_from(notation, highlighted, is_even)
-      is_even ? :gray : :white
+      default_background = is_even ? :gray : :white
+      is_highlighted = highlighted.include?(notation)
+      return default_background unless is_highlighted
 
-      # return default_background unless highlighted.include?(notation)
-
-      # is_free = @squares[notation].nil?
-      # is_free ? :green : :red
+      is_free = @squares[notation].nil?
+      is_free ? :yellow : :red
     end
   end
 end

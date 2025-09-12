@@ -275,24 +275,22 @@ describe Chess::Board do
       end
     end
 
-    # skip for now...
+    context "highlighting" do
+      context "when board has one black knight, and one white pawn it can capture" do
+        let(:white_pawn) { double("Piece", type: "pawn", color: :white, character: "♙") }
+        let(:black_knight) { double("Piece", type: "knight", color: :black, character: "♞") }
 
-    # context "highlighting" do
-    #   context "when board has one black knight, and one white pawn it can capture" do
-    #     let(:white_pawn) { double("Piece", type: "pawn", color: :white, character: "♙") }
-    #     let(:black_knight) { double("Piece", type: "knight", color: :black, character: "♞") }
+        before do
+          board.place_piece(white_pawn, "c3")
+          board.place_piece(black_knight, "d5")
+        end
 
-    #     before do
-    #       board.place_piece(white_pawn, "e6")
-    #       board.place_piece(black_knight, "c5")
-    #     end
-
-    #     it "prints a board with the pawn and knight, highlights moves in green, and highlights captures in red" do
-    #       text = get_text("spec/sample_boards/highlights.txt")
-    #       highlights = %w[a6 b7 a4 b3 d7 e6 e4 d3]
-    #       expect { puts board.print(highlights) }.to output(text).to_stdout
-    #     end
-    #   end
-    # end
+        it "prints a board with the pawn and knight, highlights moves in yellow, and highlights captures in red" do
+          text = get_text("spec/sample_boards/highlights.txt")
+          highlights = %w[c7 e7 f6 f4 e3 c3 b6 b4]
+          expect { puts board.print(highlight: highlights) }.to output(text).to_stdout
+        end
+      end
+    end
   end
 end
