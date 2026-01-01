@@ -28,20 +28,20 @@ module Chess
       @squares[notation] = piece
     end
 
-    def move_piece(starting, ending)
-      return unless @squares.key?(starting) && @squares.key?(ending)
+    def move_piece(starting_notation, ending_notation)
+      return unless @squares.key?(starting_notation) && @squares.key?(ending_notation)
 
-      return if @squares[starting].nil?
+      return if @squares[starting_notation].nil?
 
-      piece = @squares[starting]
-      @squares[starting] = nil
-      @squares[ending] = piece
+      piece = @squares[starting_notation]
+      @squares[starting_notation] = nil
+      @squares[ending_notation] = piece
     end
 
-    def translate(notation, direction)
-      return nil unless @squares.key?(notation)
+    def translate(starting_notation, direction)
+      return nil unless @squares.key?(starting_notation)
 
-      col, row = notation.chars
+      col, row = starting_notation.chars
       horiz, verti = direction
       col = x_translate(col, horiz)
       row = y_translate(row, verti)
