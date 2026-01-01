@@ -228,6 +228,7 @@ describe Chess::Board do
     context "when board is empty" do
       it "prints an empty board" do
         text = get_text("spec/sample_boards/empty.txt")
+        puts board.print
         expect { puts board.print }.to output(text).to_stdout
       end
     end
@@ -271,6 +272,7 @@ describe Chess::Board do
 
       it "prints a board with each Piece in its proper square" do
         text = get_text("spec/sample_boards/fully_set_up.txt")
+        puts board.print
         expect { puts board.print }.to output(text).to_stdout
       end
     end
@@ -288,6 +290,7 @@ describe Chess::Board do
         it "prints a board with the pawn and knight, highlights moves in yellow, and highlights captures in red" do
           text = get_text("spec/sample_boards/highlights.txt")
           highlights = %w[c7 e7 f6 f4 e3 c3 b6 b4]
+          puts board.print(highlight: highlights)
           expect { puts board.print(highlight: highlights) }.to output(text).to_stdout
         end
       end
