@@ -2,7 +2,7 @@ module Chess
   # a moveable piece in Chess
   class Piece
     CHARSET = {
-      "white" => {
+      white: {
         "king" => "♔",
         "queen" => "♕",
         "rook" => "♖",
@@ -10,7 +10,7 @@ module Chess
         "knight" => "♘",
         "pawn" => "♙"
       },
-      "black" => {
+      black: {
         "king" => "♚",
         "queen" => "♛",
         "rook" => "♜",
@@ -25,7 +25,7 @@ module Chess
     def initialize(**traits)
       @type = traits[:type]
       @color = traits[:color]
-      @character = CHARSET[color][type]
+      @character = CHARSET[@color][@type]
     end
   end
 end
